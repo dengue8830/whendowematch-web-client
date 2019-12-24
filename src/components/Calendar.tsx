@@ -3,37 +3,73 @@ import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 import styled from 'styled-components';
+import { socket } from '../socket';
 import { useDidMount } from '../utils/hooksUtils';
+import { IEvent, IUser } from '../types/types';
 
 interface IProps {
 }
 
 const localizer = momentLocalizer(moment)
 
-interface IEvent {
-  title: string
-  start: Date
-  end: Date
+// const someevents = [{
+//   title: 'some title',
+//   start: new Date(),
+//   end: moment().add(1, 'hour').toDate(),
+//   // allDay: false
+//   // resource?: any,
+// }];
+
+function parseEvent(event: IEvent) {
+  return {
+    title: event.title,
+    start: new Date(event.start),
+    end: new Date(event.end),
+  }
 }
 
-const someevents = [{
-  title: 'some title',
-  start: new Date(),
-  end: moment().add(1, 'hour').toDate(),
-  // allDay: false
-  // resource?: any,
-}];
-
-export function Calendar(props: IProps) {
+function useEvents() {
   const [events, setEvents] = React.useState<IEvent[]>([]);
 
   useDidMount(() => {
-    // TODO: remote fetch
-    setEvents(someevents);
+    // socket.on('connect', function () { console.log('connected'); });
+    // socket.on('disconnect', function () { console.log('disconnected'); });
+    socket.on('newEvent', onNewEvent);
+    socket.emit('getEvents');
+    socket.on('currentEvents', function (events: IEvent[]) {
+      setEvents(events.map(item => parseEvent(item)));
+    });
   });
 
+  function onNewEvent(event: IEvent) {
+    setEvents(prev => {
+      return [...prev, parseEvent(event)];
+    });
+  }
+
+  function createEvent(event) {
+    socket.emit('addEvent', {
+      title: 'martin event',
+      start: event.start,
+      end: event.end
+    });
+  }
+
+  return {
+    events,
+    createEvent
+  }
+}
+
+export function Calendar(props: IProps) {
+  const { events, createEvent } = useEvents();
+
   function onSelectSlot(slot) {
-    setEvents([...events, slot]);
+    createEvent({
+      title: 'martin event',
+      start: slot.start,
+      end: slot.end
+    });
   }
 
   return (

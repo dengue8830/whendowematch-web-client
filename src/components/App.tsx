@@ -1,24 +1,37 @@
 import React from 'react';
 import './App.css';
-import { ConnectedUsers } from './connectedUsers/ConnectedUsers';
-import { Calendar } from './Calendar';
-import { Results } from './results/Results';
 import styled, { ThemeProvider } from 'styled-components';
 import { companyStyles } from '../styles/theme';
 import 'moment/locale/es';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Matcher } from './Matcher';
+import { Login } from './login/Login';
+import { sstorage } from '../utils/storage';
 
 companyStyles.setStyles({ theme: 'white', primaryColor: '#e91e63', contrastPrimaryColor: 'white' });
 
+function renderWithLogin() {
+  if (sstorage.getUser()) {
+    return <Matcher />
+  }
+  return <Redirect to='/login' />;
+}
 
 export function App() {
   return (
-    <ThemeProvider theme={companyStyles.styles}>
-      <Container>
-        <ConnectedUsers />
-        <Calendar />
-        <Results />
-      </Container>
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={companyStyles.styles}>
+        <Container>
+          <Switch>
+            <Route exact path='/login'>
+              <Login />
+            </Route>
+            <Route exact path='/' render={renderWithLogin} />
+            <Route path='*' render={() => <Redirect to='/' />} />
+          </Switch>
+        </Container>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 
