@@ -14,12 +14,12 @@ import styled from 'styled-components';
 // `
 
 export const Text = styled.label`
-  font-family: Poppins;
+  font-family: ${props => props.theme.text.fontFamily};
   letter-spacing: 0.25px;
-  font-size: 15px;
-  color: #212121;
+  font-size: ${props => props.theme.text.fontSize};
+  color: ${props => props.theme.screenContrastColor};
 `
 export const NoteText = styled(Text)`
   font-size: 12px;
-  color: #757575;
+  color: ${props => props.theme.noteColor};
 `

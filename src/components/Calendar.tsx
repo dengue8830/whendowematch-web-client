@@ -1,4 +1,3 @@
-// const BigCalendar = require('react-big-calendar');
 import * as React from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -19,8 +18,6 @@ interface IEvent {
 
 const someevents = [{
   title: 'some title',
-  // start: moment(),
-  // end: moment().add(1, 'hour'),
   start: new Date(),
   end: moment().add(1, 'hour').toDate(),
   // allDay: false
