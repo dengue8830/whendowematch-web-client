@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap');
+
+/* * {
+  text-align: center;
+  font-family: Poppins, sans-serif;
+  letter-spacing: 0.25px;
+} */
+
+.rbc-calendar {
+  font-family: Poppins;
+}
+
+/* Cool scrollbar */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+  background: #757575;
+}
+
+::-webkit-scrollbar-track {
+  /* for dark theme: rgba(0, 0, 0, 0.1) */
+  background: rgba(255, 255, 255, 0.2);
+}
