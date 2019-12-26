@@ -7,10 +7,12 @@ export interface IUser {
   connectionStatus: 'connected' | 'disconnected'
 }
 
-export interface IEvent {
+export interface ISchedule {
   title: string
   start: Date
   end: Date
+  userId: string
+  color: string
 }
 
 export enum Errors {

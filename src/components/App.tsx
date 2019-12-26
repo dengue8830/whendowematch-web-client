@@ -5,7 +5,7 @@ import { companyStyles } from '../styles/theme';
 import 'moment/locale/es';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { Matcher } from './Matcher';
-import { Login } from './login/Login';
+import { Register } from './register/Register';
 import { sstorage } from '../utils/storage';
 import { socketService } from '../utils/socket.service';
 
@@ -27,7 +27,7 @@ export function App() {
         <Container>
           <Switch>
             <Route exact path='/login'>
-              <Login />
+              <Register />
             </Route>
             <Route exact path='/' render={renderWithLogin} />
             <Route path='*' render={() => <Redirect to='/' />} />

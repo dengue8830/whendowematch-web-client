@@ -9,16 +9,21 @@ interface IProps {
 
 }
 
-export function Login(props: IProps) {
+export function Register(props: IProps) {
   const [name, setName] = React.useState('');
+  const [color, setColor] = React.useState('teal');
   const history = useHistory();
 
   function onNameChange(e) {
     setName(e.target.value);
   }
 
+  function onColorChange(e) {
+    setColor(e.target.value);
+  }
+
   async function onClickGo(e) {
-    const user = { name };
+    const user = { name, color };
     // await http.get('http://localhost:3001/api/auth/');
     const res = await http.post<{ token, user: IUser }>('http://localhost:3001/api/auth/register', user);
     sstorage.setUser(res.data.user);
@@ -32,6 +37,7 @@ export function Login(props: IProps) {
   return (
     <div>
       <input value={name} onChange={onNameChange} placeholder='Choose a nickname' />
+      <input value={color} onChange={onColorChange} placeholder='Choose a color' />
       <button onClick={onClickGo}>GO!</button>
     </div>
   );

@@ -39,7 +39,7 @@ function useUsers() {
     });
     socketService.emit('getUsers');
     socketService.on('getUsers', function (users: IUser[]) {
-      console.log('users', users);
+      // console.log('users', users);
       setUsers(() => users);
     });
   });
@@ -53,7 +53,7 @@ export function ConnectedUsers(props: IConnectedUsersProps) {
   const { users } = useUsers();
   return (
     <Container>
-      <Title>connected users</Title>
+      <Title>Users</Title>
       {
         users.map(item => (<ConnectedUserItem key={item.id} user={item} />))
       }

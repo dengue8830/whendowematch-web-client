@@ -5,13 +5,31 @@ import moment from 'moment';
 import styled from 'styled-components';
 import { socketService } from '../utils/socket.service';
 import { useDidMount } from '../utils/hooksUtils';
-import { IEvent, IUser } from '../types/types';
+import { ISchedule, IUser } from '../types/types';
+import { sstorage } from '../utils/storage';
 
 interface IProps {
 }
 
 const localizer = momentLocalizer(moment)
 
+function getEventStyle(event: ISchedule, start, end, isSelected) {
+  let newStyle = {
+    backgroundColor: event.color,
+    color: 'white',
+    borderRadius: '5px',
+    border: 'none'
+  };
+
+  // if (event.isMine) {
+  //   newStyle.backgroundColor = "lightgreen"
+  // }
+
+  return {
+    className: '',
+    style: newStyle
+  };
+}
 // const someevents = [{
 //   title: 'some title',
 //   start: new Date(),
@@ -20,16 +38,16 @@ const localizer = momentLocalizer(moment)
 //   // resource?: any,
 // }];
 
-function parseEvent(event: IEvent) {
+function parseEvent(schedule: ISchedule) {
   return {
-    title: event.title,
-    start: new Date(event.start),
-    end: new Date(event.end),
+    ...schedule,
+    start: new Date(schedule.start),
+    end: new Date(schedule.end)
   }
 }
 
 function useSchedules() {
-  const [events, setSchedules] = React.useState<IEvent[]>([]);
+  const [events, setSchedules] = React.useState<ISchedule[]>([]);
 
   useDidMount(() => {
     socketService.on('newSchedule', onNewSchedule);
@@ -38,27 +56,30 @@ function useSchedules() {
     socketService.on('addSchedule', onNewSchedule);
   });
 
-  function onGetSchedules(events: IEvent[]) {
-    setSchedules(events.map(item => parseEvent(item)));
+  function onGetSchedules(schedules: ISchedule[]) {
+    setSchedules(schedules.map(item => parseEvent(item)));
   }
 
-  function onNewSchedule(event: IEvent) {
+  function onNewSchedule(event: ISchedule) {
     setSchedules(prev => {
       return [...prev, parseEvent(event)];
     });
   }
 
-  function createEvent(event) {
+  function createSchedule(schedule) {
+    const user = sstorage.getUser()!;
     socketService.emit('addSchedule', {
-      title: 'martin event',
-      start: event.start,
-      end: event.end
+      title: user.name,
+      start: schedule.start,
+      end: schedule.end,
+      userId: user.id,
+      color: user.color
     });
   }
 
   return {
     events,
-    createEvent
+    createEvent: createSchedule
   }
 }
 
@@ -84,6 +105,7 @@ export function Calendar(props: IProps) {
         selectable
         onSelectSlot={onSelectSlot}
         toolbar={false}
+        eventPropGetter={getEventStyle}
       />
     </Container>
   );
