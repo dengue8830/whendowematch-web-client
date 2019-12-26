@@ -1,13 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Text } from '../base/Text';
+import { IUser } from '../../types/types';
 
 interface IProps {
-  name: string
+  user: IUser
 }
 
 export function ConnectedUserItem(props: IProps) {
-  return <Text>{props.name}</Text>;
+  return <Text>{props.user.name} ({props.user.connectionStatus})</Text>;
 }
 
 // const Avatar = styled.image`

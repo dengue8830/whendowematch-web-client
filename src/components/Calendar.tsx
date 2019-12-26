@@ -3,7 +3,7 @@ import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 import styled from 'styled-components';
-import { socket } from '../socket';
+import { socketService } from '../utils/socket.service';
 import { useDidMount } from '../utils/hooksUtils';
 import { IEvent, IUser } from '../types/types';
 
@@ -28,27 +28,28 @@ function parseEvent(event: IEvent) {
   }
 }
 
-function useEvents() {
-  const [events, setEvents] = React.useState<IEvent[]>([]);
+function useSchedules() {
+  const [events, setSchedules] = React.useState<IEvent[]>([]);
 
   useDidMount(() => {
-    // socket.on('connect', function () { console.log('connected'); });
-    // socket.on('disconnect', function () { console.log('disconnected'); });
-    socket.on('newEvent', onNewEvent);
-    socket.emit('getEvents');
-    socket.on('currentEvents', function (events: IEvent[]) {
-      setEvents(events.map(item => parseEvent(item)));
-    });
+    socketService.on('newSchedule', onNewSchedule);
+    socketService.emit('getSchedules');
+    socketService.on('getSchedules', onGetSchedules);
+    socketService.on('addSchedule', onNewSchedule);
   });
 
-  function onNewEvent(event: IEvent) {
-    setEvents(prev => {
+  function onGetSchedules(events: IEvent[]) {
+    setSchedules(events.map(item => parseEvent(item)));
+  }
+
+  function onNewSchedule(event: IEvent) {
+    setSchedules(prev => {
       return [...prev, parseEvent(event)];
     });
   }
 
   function createEvent(event) {
-    socket.emit('addEvent', {
+    socketService.emit('addSchedule', {
       title: 'martin event',
       start: event.start,
       end: event.end
@@ -62,7 +63,7 @@ function useEvents() {
 }
 
 export function Calendar(props: IProps) {
-  const { events, createEvent } = useEvents();
+  const { events, createEvent } = useSchedules();
 
   function onSelectSlot(slot) {
     createEvent({

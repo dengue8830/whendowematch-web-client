@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { socket } from '../../socket';
 import { sstorage } from '../../utils/storage';
 import { useHistory } from 'react-router';
+import { http } from '../../utils/http';
+import { socketService } from '../../utils/socket.service';
+import { IUser } from '../../types/types';
 
 interface IProps {
 
@@ -15,10 +17,15 @@ export function Login(props: IProps) {
     setName(e.target.value);
   }
 
-  function onClickGo() {
+  async function onClickGo(e) {
     const user = { name };
-    sstorage.setUser(user);
-    socket.emit('addUser', user);
+    // await http.get('http://localhost:3001/api/auth/');
+    const res = await http.post<{ token, user: IUser }>('http://localhost:3001/api/auth/register', user);
+    sstorage.setUser(res.data.user);
+    http.setCredentials(res.data.token);
+    sstorage.setToken(res.data.token);
+    socketService.setCredentials(res.data.token);
+    socketService.connect();
     history.push('/');
   }
 

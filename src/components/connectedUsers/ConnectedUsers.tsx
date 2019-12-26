@@ -3,23 +3,44 @@ import styled from 'styled-components';
 import { Text, NoteText } from '../base/Text';
 import { ConnectedUserItem } from './ConncetedUserItem';
 import { useDidMount } from '../../utils/hooksUtils';
-import { socket } from '../../socket';
+import { socketService } from '../../utils/socket.service';
 import { IUser } from '../../types/types';
+import { useImmer } from 'use-immer';
 
 interface IConnectedUsersProps {
 
 }
 
 function useUsers() {
-  const [users, setUsers] = React.useState<IUser[]>([]);
+  const [users, setUsers] = useImmer<IUser[]>([]);
 
   useDidMount(() => {
-    socket.on('newUser', (user) => {
-      setUsers(prev => [...prev, user]);
+    socketService.on('userConnected', (user) => {
+      console.log('userConnected', user);
+      setUsers(draft => {
+        let existingUser = draft.find(u => u.id === user.id);
+        if (existingUser) {
+          Object.assign(existingUser, user);
+          // existingUser.connectionStatus = 'connected';
+          // existingUser = {...user};
+          return draft;
+        } else {
+          return [...draft, user];
+        }
+      });
     });
-    socket.emit('getUsers');
-    socket.on('currentUsers', function (users: IUser[]) {
-      setUsers(users);
+    socketService.on('userDisconnected', (user) => {
+      console.log('userDisconnected', user);
+      setUsers(draft => {
+        const u = draft.find(u => u.id === user.id);
+        if (u) u.connectionStatus = 'disconnected';
+        return draft;
+      });
+    });
+    socketService.emit('getUsers');
+    socketService.on('getUsers', function (users: IUser[]) {
+      console.log('users', users);
+      setUsers(() => users);
     });
   });
 
@@ -34,7 +55,7 @@ export function ConnectedUsers(props: IConnectedUsersProps) {
     <Container>
       <Title>connected users</Title>
       {
-        users.map(item => (<ConnectedUserItem name={item.name || 'unknown'} />))
+        users.map(item => (<ConnectedUserItem key={item.id} user={item} />))
       }
       {
         !users.length &&

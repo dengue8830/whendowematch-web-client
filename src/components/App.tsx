@@ -7,11 +7,14 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { Matcher } from './Matcher';
 import { Login } from './login/Login';
 import { sstorage } from '../utils/storage';
+import { socketService } from '../utils/socket.service';
 
 companyStyles.setStyles({ theme: 'white', primaryColor: '#e91e63', contrastPrimaryColor: 'white' });
 
 function renderWithLogin() {
-  if (sstorage.getUser()) {
+  if (sstorage.getToken() && sstorage.getUser()) {
+    socketService.setCredentials(sstorage.getToken()!);
+    socketService.connect();
     return <Matcher />
   }
   return <Redirect to='/login' />;
