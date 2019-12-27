@@ -1,6 +1,6 @@
-import { ISchedule, IOverlap } from '../types/types';
-import * as Moment from 'moment';
-import { extendMoment } from 'moment-range';
+import { ISchedule, IOverlap } from "../types/types";
+import * as Moment from "moment";
+import { extendMoment } from "moment-range";
 const moment = extendMoment(Moment);
 
 /**
@@ -10,7 +10,7 @@ const moment = extendMoment(Moment);
  * a ----- c
  *     b ----- d
  * So in order to avoid duplicates we add each
- * range pair overlap just once.ddssssdf
+ * range pair overlap just once
  */
 function thereIsOneWayOverlap(current: ISchedule, next: ISchedule): boolean {
   const currentRange = moment.range(current.start, current.end);
