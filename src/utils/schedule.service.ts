@@ -10,7 +10,7 @@ const moment = extendMoment(Moment);
  * a ----- c
  *     b ----- d
  * So in order to avoid duplicates we add each
- * range pair overlap just once.dd
+ * range pair overlap just once.dds
  */
 function thereIsOneWayOverlap(current: ISchedule, next: ISchedule): boolean {
   const currentRange = moment.range(current.start, current.end);
