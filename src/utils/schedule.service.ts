@@ -10,20 +10,22 @@ const moment = extendMoment(Moment);
  * a ----- c
  *     b ----- d
  * So in order to avoid duplicates we add each
- * range pair overlap just once.ddssss
+ * range pair overlap just once.ddssssdf
  */
 function thereIsOneWayOverlap(current: ISchedule, next: ISchedule): boolean {
   const currentRange = moment.range(current.start, current.end);
   const nextRange = moment.range(next.start, next.end);
-  const isOneWay = current.end.getTime() > next.start.getTime() && current.start.getTime() < next.start.getTime();
+  const isOneWay =
+    current.end.getTime() > next.start.getTime() &&
+    current.start.getTime() < next.start.getTime();
   return currentRange.overlaps(nextRange) && isOneWay;
 }
 
 export const scheduleService = {
   findMatches(items: ISchedule[]): IOverlap[] {
     const overlaps: IOverlap[] = [];
-    items.forEach((current) => {
-      items.forEach((next) => {
+    items.forEach(current => {
+      items.forEach(next => {
         if (current.id === next.id) {
           return;
         }
@@ -43,6 +45,6 @@ export const scheduleService = {
       ...schedule,
       start: new Date(schedule.start),
       end: new Date(schedule.end)
-    }
+    };
   }
-}
+};
