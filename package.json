@@ -30,10 +30,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prettier:base": "prettier --parser typescript --single-quote",
-    "prettier:check": "npm run prettier:base -- --list-different \"src/**/*.{ts,tsx}\"",
-    "prettier:write": "npm run prettier:base -- --write \"src/**/*.{ts,tsx}\"",
-    "prueba": "echo 'pruebaxx'"
+    "prettier": "prettier --config ./prettierrc.json --write \"src/**/*.{ts,tsx,js,jsx,css,json,md}\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -61,12 +58,12 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run prueba"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,css,json,md}": [
-      "npm run prettier:base -- --write \"src/**/*.{ts,tsx}\"",
+      "prettier --write",
       "git add"
     ]
   }

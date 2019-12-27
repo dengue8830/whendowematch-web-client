@@ -1,11 +1,9 @@
-import * as React from 'react';
+import * as React from "react";
 
 interface IProps {
-  message: string
+  message: string;
 }
 
 export function ErrorScreen(props: IProps) {
-  return (
-    <div>Ups! {props.message}</div>
-  );
+  return <div>Ups! {props.message}</div>;
 }

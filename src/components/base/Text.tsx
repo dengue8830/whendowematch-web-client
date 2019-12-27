@@ -1,5 +1,5 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import * as React from "react";
+import styled from "styled-components";
 
 // interface IProps {
 //   children: any
@@ -18,8 +18,8 @@ export const Text = styled.label`
   letter-spacing: 0.25px;
   font-size: ${props => props.theme.text.fontSize};
   color: ${props => props.theme.screenContrastColor};
-`
+`;
 export const NoteText = styled(Text)`
   font-size: 12px;
   color: ${props => props.theme.noteColor};
-`
+`;

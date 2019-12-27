@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 /**
  * Si necesitas que se comporte igual que didupdate de clase crear uno que use useLayaourEffect.
@@ -16,11 +16,15 @@ export function useDidUpdate(cb: () => void, inputs: any[]) {
   }, inputs);
 }
 
-export function useEffectAsync(effect: () => void, inputs: any[], cleanup: () => void) {
+export function useEffectAsync(
+  effect: () => void,
+  inputs: any[],
+  cleanup: () => void
+) {
   React.useEffect(() => {
-      effect();
-      return cleanup;
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    effect();
+    return cleanup;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, inputs);
 }
 

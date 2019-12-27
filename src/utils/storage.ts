@@ -1,7 +1,7 @@
 import { IUser } from "../types/types";
 
-const USER = 'USER';
-const TOKEN = 'TOKEN';
+const USER = "USER";
+const TOKEN = "TOKEN";
 
 class SStorage {
   setUser(user: IUser) {
