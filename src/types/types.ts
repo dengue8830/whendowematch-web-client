@@ -17,7 +17,14 @@ export interface ISchedule {
 }
 
 export enum Errors {
-  Unknown = 'Unknown'
+  Unknown = 'Unknown',
+  Unauthorized = 'Unauthorized'
+}
+
+export enum LoadState {
+  Idle,
+  Loading,
+  Error
 }
 
 export interface IOverlap {
