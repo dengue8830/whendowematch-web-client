@@ -1,5 +1,9 @@
 import { ISchedule, IOverlap } from '../types/types';
-import moment from 'moment';
+// import moment from 'moment';
+// import { extendMoment } from 'moment-range';
+import * as Moment from 'moment';
+import { extendMoment } from 'moment-range';
+const moment = extendMoment(Moment);
 
 function xxx(current: ISchedule, next?: ISchedule): boolean {
   if (!next) {
@@ -8,6 +12,8 @@ function xxx(current: ISchedule, next?: ISchedule): boolean {
   if (current.end.getDay() !== next.end.getDay()) {
     return false;
   }
+  const range = moment.range(next.start, next.end);
+  console.log('range', range);
   return current.end.getTime() > next.start.getTime() && current.start.getTime() < next.start.getTime();
 }
 
