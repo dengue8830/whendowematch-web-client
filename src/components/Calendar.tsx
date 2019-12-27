@@ -7,6 +7,8 @@ import { socketService } from '../utils/socket.service';
 import { useDidMount } from '../utils/hooksUtils';
 import { ISchedule, IUser } from '../types/types';
 import { sstorage } from '../utils/storage';
+import { scheduleService } from '../utils/schedule.service';
+import { useSchedules } from '../hooks/useSchedule';
 
 interface IProps {
 }
@@ -30,65 +32,12 @@ function getEventStyle(event: ISchedule, start, end, isSelected) {
     style: newStyle
   };
 }
-// const someevents = [{
-//   title: 'some title',
-//   start: new Date(),
-//   end: moment().add(1, 'hour').toDate(),
-//   // allDay: false
-//   // resource?: any,
-// }];
-
-function parseEvent(schedule: ISchedule) {
-  return {
-    ...schedule,
-    start: new Date(schedule.start),
-    end: new Date(schedule.end)
-  }
-}
-
-function useSchedules() {
-  const [events, setSchedules] = React.useState<ISchedule[]>([]);
-
-  useDidMount(() => {
-    socketService.on('newSchedule', onNewSchedule);
-    socketService.emit('getSchedules');
-    socketService.on('getSchedules', onGetSchedules);
-    socketService.on('addSchedule', onNewSchedule);
-  });
-
-  function onGetSchedules(schedules: ISchedule[]) {
-    setSchedules(schedules.map(item => parseEvent(item)));
-  }
-
-  function onNewSchedule(event: ISchedule) {
-    setSchedules(prev => {
-      return [...prev, parseEvent(event)];
-    });
-  }
-
-  function createSchedule(schedule) {
-    const user = sstorage.getUser()!;
-    socketService.emit('addSchedule', {
-      title: user.name,
-      start: schedule.start,
-      end: schedule.end,
-      userId: user.id,
-      color: user.color
-    });
-  }
-
-  return {
-    events,
-    createEvent: createSchedule
-  }
-}
 
 export function Calendar(props: IProps) {
-  const { events, createEvent } = useSchedules();
+  const { schedules, createSchedule } = useSchedules();
 
   function onSelectSlot(slot) {
-    createEvent({
-      title: 'martin event',
+    createSchedule({
       start: slot.start,
       end: slot.end
     });
@@ -98,7 +47,7 @@ export function Calendar(props: IProps) {
     <Container>
       <BigCalendar
         localizer={localizer}
-        events={events}
+        events={schedules}
         startAccessor='start'
         endAccessor='end'
         defaultView='week'

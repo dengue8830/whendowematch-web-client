@@ -8,6 +8,7 @@ export interface IUser {
 }
 
 export interface ISchedule {
+  id: string
   title: string
   start: Date
   end: Date
@@ -17,4 +18,9 @@ export interface ISchedule {
 
 export enum Errors {
   Unknown = 'Unknown'
+}
+
+export interface IOverlap {
+  start: Date
+  end: Date
 }
