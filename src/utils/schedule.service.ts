@@ -1,59 +1,43 @@
 import { ISchedule, IOverlap } from '../types/types';
-// import moment from 'moment';
-// import { extendMoment } from 'moment-range';
 import * as Moment from 'moment';
 import { extendMoment } from 'moment-range';
 const moment = extendMoment(Moment);
 
-function xxx(current: ISchedule, next?: ISchedule): boolean {
-  if (!next) {
-    return false;
-  }
-  if (current.end.getDay() !== next.end.getDay()) {
-    return false;
-  }
-  const range = moment.range(next.start, next.end);
-  console.log('range', range);
-  return current.end.getTime() > next.start.getTime() && current.start.getTime() < next.start.getTime();
+/**
+ * The search flow will call this in two ways
+ * -------------->
+ * <--------------
+ * a ----- c
+ *     b ----- d
+ * So in order to avoid duplicates we add each
+ * range pair overlap just once.
+ */
+function thereIsOneWayOverlap(current: ISchedule, next: ISchedule): boolean {
+  const currentRange = moment.range(current.start, current.end);
+  const nextRange = moment.range(next.start, next.end);
+  const isOneWay = current.end.getTime() > next.start.getTime() && current.start.getTime() < next.start.getTime();
+  return currentRange.overlaps(nextRange) && isOneWay;
 }
 
 export const scheduleService = {
   findMatches(items: ISchedule[]): IOverlap[] {
-    // return schedules.length ? [schedules[0]] : [];
-    items.sort((a, b) => {
-      return a.start.getTime() * -1
-    });
-    console.log('items', items);
     const overlaps: IOverlap[] = [];
-    // for (var i = 0; i < items.length; i++) {
-    //   const next = i === items.length ? undefined : items[i + 1];
-    //   const current = items[i];
-    //   const thereIsOverlap = xxx(current, next);
-    //   if (thereIsOverlap) {
-    //     overlaps.push({
-    //       start: moment(next!.start.getTime()).toDate(),
-    //       end: moment(current.end.getTime()).toDate()
-    //     });
-    //   }
-    // }
     items.forEach((current) => {
       items.forEach((next) => {
-        // const next = items[i];
-        // const current = current;
         if (current.id === next.id) {
           return;
         }
-        const thereIsOverlap = xxx(current, next);
-        if (thereIsOverlap) {
+        if (thereIsOneWayOverlap(current, next)) {
           overlaps.push({
-            start: moment(next!.start.getTime()).toDate(),
-            end: moment(current.end.getTime()).toDate()
+            start: next.start,
+            end: current.end
           });
         }
-      })
-    })
+      });
+    });
     return overlaps;
   },
+
   parseSchedule(schedule: ISchedule) {
     return {
       ...schedule,
