@@ -10,8 +10,8 @@ class SocketService {
 
   connect() {
     this.socket = io('http://localhost:3001', { query: { token: this.token } });
-    this.socket.on('connect', function () { console.log('connected'); });
-    this.socket.on('disconnect', function () { console.log('disconnected'); });
+    // this.socket.on('connect', function () { console.log('connected'); });
+    // this.socket.on('disconnect', function () { console.log('disconnected'); });
   }
 
   on(event: string, callback) {

@@ -16,7 +16,6 @@ export function Results(props: IProps) {
   const [results, setResults] = React.useState<IOverlap[]>([]);
 
   useDidUpdate(() => {
-    console.log('nocambio?');
     setResults(scheduleService.findMatches(schedules));
   }, [schedules]);
 

@@ -9,13 +9,10 @@ export function useUsers() {
 
   useDidMount(() => {
     socketService.on('userConnected', (user) => {
-      console.log('userConnected', user);
       setUsers(draft => {
         let existingUser = draft.find(u => u.id === user.id);
         if (existingUser) {
           Object.assign(existingUser, user);
-          // existingUser.connectionStatus = 'connected';
-          // existingUser = {...user};
           return draft;
         } else {
           return [...draft, user];
@@ -23,7 +20,6 @@ export function useUsers() {
       });
     });
     socketService.on('userDisconnected', (user) => {
-      console.log('userDisconnected', user);
       setUsers(draft => {
         const u = draft.find(u => u.id === user.id);
         if (u) u.connectionStatus = 'disconnected';
@@ -32,7 +28,6 @@ export function useUsers() {
     });
     socketService.emit('getUsers');
     socketService.on('getUsers', function (users: IUser[]) {
-      // console.log('users', users);
       setUsers(() => users);
     });
   });
