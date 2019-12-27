@@ -1,15 +1,15 @@
-import io from "socket.io-client";
+import io from 'socket.io-client';
 
 class SocketService {
   socket?: SocketIOClient.Socket;
-  token: string = "";
+  token: string = '';
 
   setCredentials(token: string) {
     this.token = token;
   }
 
   connect() {
-    this.socket = io("http://localhost:3001", { query: { token: this.token } });
+    this.socket = io('http://localhost:3002', { query: { token: this.token } });
     // this.socket.on('connect', function () { console.log('connected'); });
     // this.socket.on('disconnect', function () { console.log('disconnected'); });
   }
