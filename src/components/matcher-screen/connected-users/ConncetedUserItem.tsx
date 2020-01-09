@@ -1,7 +1,7 @@
-import * as React from "react";
-import styled from "styled-components";
-import { Text } from "../base/Text";
-import { IUser } from "../../types/types";
+import * as React from 'react';
+import styled from 'styled-components';
+import { Text } from '../../base/Text';
+import { IUser } from '../../../types/types';
 
 interface IProps {
   user: IUser;

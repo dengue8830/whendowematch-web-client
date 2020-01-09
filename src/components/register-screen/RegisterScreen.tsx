@@ -1,15 +1,15 @@
-import * as React from "react";
-import { sstorage } from "../../utils/storage";
-import { useHistory } from "react-router";
-import { http } from "../../utils/http";
-import { socketService } from "../../utils/socket.service";
-import { IUser } from "../../types/types";
+import * as React from 'react';
+import { sstorage } from '../../utils/storage';
+import { useHistory } from 'react-router';
+import { http } from '../../utils/http';
+import { socketService } from '../../utils/socket.service';
+import { IUser } from '../../types/types';
 
 interface IProps {}
 
-export function Register(props: IProps) {
-  const [name, setName] = React.useState("");
-  const [color, setColor] = React.useState("teal");
+export function RegisterScreen(props: IProps) {
+  const [name, setName] = React.useState('');
+  const [color, setColor] = React.useState('teal');
   const history = useHistory();
 
   function onNameChange(e) {
@@ -24,7 +24,7 @@ export function Register(props: IProps) {
     const user = { name, color };
     // await http.get('http://localhost:3001/api/auth/');
     const res = await http.post<{ token; user: IUser }>(
-      "http://localhost:3001/api/auth/register",
+      'http://localhost:3001/api/auth/register',
       user
     );
     sstorage.setUser(res.data.user);
@@ -32,7 +32,7 @@ export function Register(props: IProps) {
     sstorage.setToken(res.data.token);
     socketService.setCredentials(res.data.token);
     socketService.connect();
-    history.push("/");
+    history.push('/');
   }
 
   return (
@@ -40,12 +40,12 @@ export function Register(props: IProps) {
       <input
         value={name}
         onChange={onNameChange}
-        placeholder="Choose a nickname"
+        placeholder='Choose a nickname'
       />
       <input
         value={color}
         onChange={onColorChange}
-        placeholder="Choose a color"
+        placeholder='Choose a color'
       />
       <button onClick={onClickGo}>GO!</button>
     </div>

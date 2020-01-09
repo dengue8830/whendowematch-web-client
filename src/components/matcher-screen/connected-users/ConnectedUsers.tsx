@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { Text, NoteText } from "../base/Text";
-import { ConnectedUserItem } from "./ConncetedUserItem";
-import { useUsers } from "../../hooks/connectedUsers";
+import React from 'react';
+import styled from 'styled-components';
+import { Text, NoteText } from '../../base/Text';
+import { ConnectedUserItem } from './ConncetedUserItem';
+import { useUsers } from '../../../hooks/connectedUsers';
 
 interface IConnectedUsersProps {}
 

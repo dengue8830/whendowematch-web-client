@@ -1,10 +1,10 @@
-import * as React from "react";
-import { Calendar as BigCalendar, momentLocalizer } from "react-big-calendar";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import moment from "moment";
-import styled from "styled-components";
-import { ISchedule, IUser } from "../types/types";
-import { useSchedules } from "../hooks/useSchedule";
+import * as React from 'react';
+import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import moment from 'moment';
+import styled from 'styled-components';
+import { ISchedule, IUser } from '../../types/types';
+import { useSchedules } from '../../hooks/useSchedule';
 
 interface IProps {}
 
@@ -13,9 +13,9 @@ const localizer = momentLocalizer(moment);
 function getEventStyle(event: ISchedule, start, end, isSelected) {
   let newStyle = {
     backgroundColor: event.color,
-    color: "white",
-    borderRadius: "5px",
-    border: "none"
+    color: 'white',
+    borderRadius: '5px',
+    border: 'none'
   };
 
   // if (event.isMine) {
@@ -23,7 +23,7 @@ function getEventStyle(event: ISchedule, start, end, isSelected) {
   // }
 
   return {
-    className: "",
+    className: '',
     style: newStyle
   };
 }
@@ -43,9 +43,9 @@ export function Calendar(props: IProps) {
       <BigCalendar
         localizer={localizer}
         events={schedules}
-        startAccessor="start"
-        endAccessor="end"
-        defaultView="week"
+        startAccessor='start'
+        endAccessor='end'
+        defaultView='week'
         selectable
         onSelectSlot={onSelectSlot}
         toolbar={false}
