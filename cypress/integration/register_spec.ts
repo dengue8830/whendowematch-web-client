@@ -1,5 +1,5 @@
-describe('My First Test', function() {
-  it('Does not do much!', function() {
+describe('Register', function() {
+  it('as a user I have to be able to register', function() {
     cy.server();
     cy.route({
       method: 'post',
