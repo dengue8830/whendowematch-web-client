@@ -38,6 +38,7 @@ export function RegisterScreen(props: IProps) {
   return (
     <div>
       <input
+        name='username'
         value={name}
         onChange={onNameChange}
         placeholder='Choose a nickname'
@@ -47,7 +48,9 @@ export function RegisterScreen(props: IProps) {
         onChange={onColorChange}
         placeholder='Choose a color'
       />
-      <button onClick={onClickGo}>GO!</button>
+      <button name='go' onClick={onClickGo}>
+        GO!
+      </button>
     </div>
   );
 }
