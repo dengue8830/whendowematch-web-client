@@ -21,6 +21,9 @@ class SocketService {
   emit(event: string, params?) {
     this.socket && this.socket.emit(event, params);
   }
+
+  /** For testing porpuses. Simulates a server event. */
+  _simulateIncomingEvent(eventName, eventData) {}
 }
 
 export const socketService = new SocketService();

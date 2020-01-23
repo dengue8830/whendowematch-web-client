@@ -1,7 +1,7 @@
-import { sstorage } from "./storage";
-import { socketService } from "./socket.service";
-import { http } from "./http";
-import { Errors } from "../types/types";
+import { sstorage } from './storage';
+import { socketService } from './socket.service';
+import { http } from './http';
+import { Errors } from '../types/types';
 
 export function init() {
   const token = sstorage.getToken();

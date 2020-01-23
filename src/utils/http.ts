@@ -1,5 +1,5 @@
-import axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from "axios";
-import { Errors } from "../types/types";
+import axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
+import { Errors } from '../types/types';
 
 export interface IHttpResponse<T> {
   data: T;
@@ -13,7 +13,7 @@ class Http {
   }
 
   setCredentials(token: string) {
-    this.instance.defaults.headers.common.Authorization = "bearer " + token;
+    this.instance.defaults.headers.common.Authorization = 'bearer ' + token;
     // this.instance.defaults.headers.common.paquete = paquete;
     // JWTUtils.parseJwt(resLogin.data.token).usuario.id
   }
@@ -88,7 +88,7 @@ class Http {
 
   async isConnected() {
     try {
-      await this.head("https://www.google.com", { timeout: 5000 });
+      await this.head('https://www.google.com', { timeout: 5000 });
       return true;
     } catch (error) {
       return false;

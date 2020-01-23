@@ -10,7 +10,7 @@ interface IProps {
 export function ResultItem(props: IProps) {
   return (
     <div>
-      <Text>
+      <Text data-testid={`result-item`}>
         {moment(props.overlap.start).format('DD/MM/YYYY HH:mm')} -{' '}
         {moment(props.overlap.end)
           .local()

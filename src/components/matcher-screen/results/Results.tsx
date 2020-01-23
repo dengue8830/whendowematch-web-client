@@ -23,7 +23,9 @@ export function Results(props: IProps) {
       {results.map((item, index) => (
         <ResultItem key={index} overlap={item} />
       ))}
-      {!results.length && <NoteText>no matches yet</NoteText>}
+      {!results.length && (
+        <NoteText data-testid='empty-message'>no matches yet</NoteText>
+      )}
     </Container>
   );
 }

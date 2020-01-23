@@ -1,6 +1,6 @@
-import { ISchedule, IOverlap } from "../types/types";
-import * as Moment from "moment";
-import { extendMoment } from "moment-range";
+import { ISchedule, IOverlap } from '../types/types';
+import * as Moment from 'moment';
+import { extendMoment } from 'moment-range';
 const moment = extendMoment(Moment);
 
 /**

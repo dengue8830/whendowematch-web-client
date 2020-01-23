@@ -4,7 +4,7 @@ export interface IUser {
   id: string;
   name: string;
   color: string;
-  connectionStatus: "connected" | "disconnected";
+  connectionStatus: 'connected' | 'disconnected';
 }
 
 export interface ISchedule {
@@ -17,8 +17,8 @@ export interface ISchedule {
 }
 
 export enum Errors {
-  Unknown = "Unknown",
-  Unauthorized = "Unauthorized"
+  Unknown = 'Unknown',
+  Unauthorized = 'Unauthorized'
 }
 
 export enum LoadState {
