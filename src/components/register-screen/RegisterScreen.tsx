@@ -3,7 +3,7 @@ import { sstorage } from '../../utils/storage';
 import { useHistory } from 'react-router';
 import { http } from '../../utils/http';
 import { socketService } from '../../utils/socket.service';
-import { IUser } from '../../types/types';
+import { apis } from '../../utils/apis';
 
 interface IProps {}
 
@@ -21,16 +21,11 @@ export function RegisterScreen(props: IProps) {
   }
 
   async function onClickGo(e) {
-    const user = { name, color };
-    // await http.get('http://localhost:3001/api/auth/');
-    const res = await http.post<{ token; user: IUser }>(
-      'http://localhost:3001/api/auth/register',
-      user
-    );
-    sstorage.setUser(res.data.user);
-    http.setCredentials(res.data.token);
-    sstorage.setToken(res.data.token);
-    socketService.setCredentials(res.data.token);
+    const res = await apis.register({ name, color });
+    sstorage.setUser(res.user);
+    http.setCredentials(res.token);
+    sstorage.setToken(res.token);
+    socketService.setCredentials(res.token);
     socketService.connect();
     history.push('/');
   }

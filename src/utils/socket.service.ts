@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import { config } from './config';
 
 class SocketService {
   socket?: SocketIOClient.Socket;
@@ -9,7 +10,7 @@ class SocketService {
   }
 
   connect() {
-    this.socket = io('http://localhost:3002', { query: { token: this.token } });
+    this.socket = io(config.socketServer, { query: { token: this.token } });
     // this.socket.on('connect', function () { console.log('connected'); });
     // this.socket.on('disconnect', function () { console.log('disconnected'); });
   }
